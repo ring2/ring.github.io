@@ -4,8 +4,8 @@
 
 <head><meta name="generator" content="Hexo 3.9.0">
     <meta charset="utf-8">
-    <meta name="keywords" content="Introduce My Blog, Java">
-    <meta name="description" content="​    我觉得每一个程序员都应该有一个自己的 博客去记录学习编程过程中的笔记，同时也可以记录自己的生活。只有不断的总结才能不断的进步。学习：学是去听，去阅读；习是去实践，去记录。只有这样我们才能真正的学到知识。学习也是系统化的，我们要学会">
+    <meta name="keywords" content="MyBatis工作原理, Java">
+    <meta name="description" content="MyBatis工作原理​        首先通过Mybatis中的Resources类获取主配置文件Mybatis.xml获取其流对象inputstream，构造SqlSesionFactoryBuilder对象并调用build方法，将流对">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -13,7 +13,7 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>Introduce My Blog | Ring2&#39;s blog</title>
+    <title>MyBatis工作原理 | Ring2&#39;s blog</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -304,13 +304,13 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/5.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/15.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
                     <div class="description center-align post-title">
-                        Introduce My Blog
+                        MyBatis工作原理
                     </div>
                 </div>
             </div>
@@ -422,12 +422,8 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/life/">
-                                <span class="chip bg-color">life</span>
-                            </a>
-                        
-                            <a href="/tags/first/">
-                                <span class="chip bg-color">first</span>
+                            <a href="/tags/MyBatis/">
+                                <span class="chip bg-color">MyBatis</span>
                             </a>
                         
                     </div>
@@ -438,8 +434,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/life/" class="post-category">
-                                life
+                            <a href="/categories/SSM/" class="post-category">
+                                SSM
                             </a>
                         
                     </div>
@@ -450,7 +446,7 @@
             <div class="post-info">
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2019-10-19
+                    2019-08-08
                 </div>
 
                 
@@ -466,16 +462,9 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>​    我觉得每一个程序员都应该有一个自己的 博客去记录学习编程过程中的笔记，同时也可以记录自己的生活。只有不断的总结才能不断的进步。<strong>学习</strong>：学是去听，去阅读；习是去实践，去记录。只有这样我们才能真正的学到知识。学习也是系统化的，我们要学会将零散、碎片化的知识进行系统化。</p>
-<hr>
-<p>​    作为一个 <strong>Java</strong> 开发工程师 ，接下来会在Java的领域里分享自己的学习过程。</p>
-<p>​    所以，接下来一起学习，一起进步吧。</p>
-<pre><code class="java">public static void main(String[] args){
-    System.out.print(&quot;where there is a will, there is a way.&quot;);
-    while(Hobby.java==true){
-        coding(java);
-    }
-}</code></pre>
+                <h2 id="MyBatis工作原理"><a href="#MyBatis工作原理" class="headerlink" title="MyBatis工作原理"></a>MyBatis工作原理</h2><p>​        首先通过Mybatis中的Resources类获取主配置文件Mybatis.xml获取其流对象inputstream，构造SqlSesionFactoryBuilder对象并调用build方法，将流对象作为参数传给build方法，build方法中通过调用XMLConfigBuilder对象解析Mybatis.xml并构造为Configuration对象,Mybatis底层也是通过Dom4j来读取xml文件，最后将Configuration对象并传给DefaultSqlSessionFactory，其为SqlSessionFactory接口的实现类，SqlSessionFactory调用OpenSession方法，OpenSession方法中会创建事务Transaction和Executor，根据相应的参数可以配置Executor,默认采用SimpleExecutor执行器，还有另外两种执行器类型ExecutorType.BATCH、ExecutorType.REUSE，Executor才是真正执行数据库操作的对象，最后创建DefaultSqlSession对象并传给SqlSession接口。</p>
+<p>　　SqlSession：创建数据库会话，代表与数据库的一次连接。<br>　　1.是Mybatis对外提供数据访问的主要API<br>　　2.实际上SqlSession的功能都是基于Executor来实现的</p>
+<p>　　以上便是Mybatis的主要运行过程。</p>
 
             </div>
             <hr/>
@@ -636,8 +625,8 @@
                 </a>
             </div>
             <br/>
-            <a  href="/2019/10/19/coding/">
-                    《Introduce My Blog》
+            <a  href="/2019/08/08/MyBaits工作原理/">
+                    《MyBatis工作原理》
             </a> 由
             <a href="http://yoursite.com">
                 ring2
@@ -682,34 +671,31 @@
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2019/10/22/JVM之运行时数据区/">
+                <a href="/2019/10/19/coding/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/10.jpg" class="responsive-img" alt="深入理解JVM运行时数据区">
+                        <img src="/medias/featureimages/5.jpg" class="responsive-img" alt="Introduce My Blog">
                         
-                        <span class="card-title">深入理解JVM运行时数据区</span>
+                        <span class="card-title">Introduce My Blog</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            
-什么是JVM运行时数据区？JVM运行时数据区是对Java 字节码文件在内存时对文件内容进行分类而设定的区域，通过JVM运行时数据区可以更好的管理和运行Java程序。
-
-JVM运行时数据区如何划分？官方文档地址： Run-Time Data
+                            ​    我觉得每一个程序员都应该有一个自己的 博客去记录学习编程过程中的笔记，同时也可以记录自己的生活。只有不断的总结才能不断的进步。学习：学是去听，去阅读；习是去实践，去记录。只有这样我们才能真正的学到知识。学习也是系统化的，我们要学会
                         
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2019-10-22
+                            <i class="far fa-clock fa-fw icon-date"></i>2019-10-19
                         </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/JVM/" class="post-category">
-                                    JVM
+                            <a href="/categories/life/" class="post-category">
+                                    life
                                 </a>
                             
                             
@@ -719,8 +705,12 @@ JVM运行时数据区如何划分？官方文档地址： Run-Time Data
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/JVM/">
-                        <span class="chip bg-color">JVM</span>
+                    <a href="/tags/life/">
+                        <span class="chip bg-color">life</span>
+                    </a>
+                    
+                    <a href="/tags/first/">
+                        <span class="chip bg-color">first</span>
                     </a>
                     
                 </div>
@@ -734,31 +724,31 @@ JVM运行时数据区如何划分？官方文档地址： Run-Time Data
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2019/08/08/MyBaits工作原理/">
+                <a href="/2019/08/02/Java 框架、中间件概念总结/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/15.jpg" class="responsive-img" alt="MyBatis工作原理">
+                        <img src="/medias/featureimages/10.jpg" class="responsive-img" alt="Java框架概念性总结">
                         
-                        <span class="card-title">MyBatis工作原理</span>
+                        <span class="card-title">Java框架概念性总结</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            MyBatis工作原理​        首先通过Mybatis中的Resources类获取主配置文件Mybatis.xml获取其流对象inputstream，构造SqlSesionFactoryBuilder对象并调用build方法，将流对
+                            1. Java相关的框架、中间件总结​        Java之所以这些年屹立不倒始终排在编程排行版的前三位，除了和它自身的优秀特性有关外，还和它强大的社区平台有关，首先为我们所熟之的就是Spring开源组织所带给我们的Spring全家桶，
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2019-08-08
+                                <i class="far fa-clock fa-fw icon-date"></i>2019-08-02
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/SSM/" class="post-category">
-                                    SSM
+                            <a href="/categories/Java-Concept/" class="post-category">
+                                    Java-Concept
                                 </a>
                             
                             
@@ -768,8 +758,8 @@ JVM运行时数据区如何划分？官方文档地址： Run-Time Data
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/MyBatis/">
-                        <span class="chip bg-color">MyBatis</span>
+                    <a href="/tags/Java相关概念/">
+                        <span class="chip bg-color">Java相关概念</span>
                     </a>
                     
                 </div>
