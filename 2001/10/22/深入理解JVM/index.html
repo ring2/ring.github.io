@@ -4,8 +4,13 @@
 
 <head><meta name="generator" content="Hexo 3.9.0">
     <meta charset="utf-8">
-    <meta name="keywords" content="Introduce My Blog, Java">
-    <meta name="description" content="​    我觉得每一个程序员都应该有一个自己的 博客去记录学习编程过程中的笔记，同时也可以记录自己的生活。只有不断的总结才能不断的进步。学习：学是去听，去阅读；习是去实践，去记录。只有这样我们才能真正的学到知识。学习也是系统化的，我们要学会">
+    <meta name="keywords" content="深入理解JVM运行时数据区, Java">
+    <meta name="description" content="
+什么是JVM运行时数据区？
+JVM运行时数据区是对Java 字节码文件在内存时对文件内容进行分类而设定的区域，通过JVM运行时数据区可以更好的管理和运行Java程序。
+
+JVM运行时数据区如何划分？
+官方文档地址： Run-Time Da">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -13,7 +18,7 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>Introduce My Blog | Ring2&#39;s blog</title>
+    <title>深入理解JVM运行时数据区 | Ring2&#39;s blog</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -304,13 +309,13 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/5.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/10.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
                     <div class="description center-align post-title">
-                        Introduce My Blog
+                        深入理解JVM运行时数据区
                     </div>
                 </div>
             </div>
@@ -422,12 +427,8 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/life/">
-                                <span class="chip bg-color">life</span>
-                            </a>
-                        
-                            <a href="/tags/first/">
-                                <span class="chip bg-color">first</span>
+                            <a href="/tags/JVM/">
+                                <span class="chip bg-color">JVM</span>
                             </a>
                         
                     </div>
@@ -438,8 +439,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/life/" class="post-category">
-                                life
+                            <a href="/categories/JVM/" class="post-category">
+                                JVM
                             </a>
                         
                     </div>
@@ -450,7 +451,7 @@
             <div class="post-info">
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2019-10-19
+                    2001-10-22
                 </div>
 
                 
@@ -466,16 +467,46 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>​    我觉得每一个程序员都应该有一个自己的 博客去记录学习编程过程中的笔记，同时也可以记录自己的生活。只有不断的总结才能不断的进步。<strong>学习</strong>：学是去听，去阅读；习是去实践，去记录。只有这样我们才能真正的学到知识。学习也是系统化的，我们要学会将零散、碎片化的知识进行系统化。</p>
-<hr>
-<p>​    作为一个 <strong>Java</strong> 开发工程师 ，接下来会在Java的领域里分享自己的学习过程。</p>
-<p>​    所以，接下来一起学习，一起进步吧。</p>
-<pre><code class="java">public static void main(String[] args){
-    System.out.print(&quot;where there is a will, there is a way.&quot;);
-    while(Hobby.java==true){
-        coding(java);
-    }
-}</code></pre>
+                <ol>
+<li><p><strong>什么是JVM运行时数据区？</strong></p>
+<p>JVM运行时数据区是对Java 字节码文件在<strong>内存</strong>时对文件内容进行分类而设定的区域，通过JVM运行时数据区可以更好的管理和运行Java程序。</p>
+</li>
+<li><p><strong>JVM运行时数据区如何划分？</strong></p>
+<p>官方文档地址： <a href="https://docs.oracle.com/javase/specs/jvms/se8/html/jvms-2.html#jvms-2.5" target="_blank" rel="noopener">Run-Time Data Areas </a></p>
+<p>官方文档中将运行时数据区划分成六个部分:</p>
+<ul>
+<li>The pc Register : 程序计数器</li>
+<li>Java virtual Machine Stacks : Java 虚拟机栈</li>
+<li>Heap ：堆</li>
+<li>Method Area :方法区</li>
+<li>Run-Time Constant Pool: 运行时常量池</li>
+<li>Native Method Stacks: 本地方法栈</li>
+</ul>
+<p>首先我们知道Java是一门面向对象的语言，那么我们先来看看哪个数据区存放着对象，答案其实大家都知道：<strong>堆</strong></p>
+<p>Heap：</p>
+<blockquote>
+<p>The Java Virtual Machine has a <em>heap</em> that is shared among all Java Virtual Machine threads. The heap is the run-time data area from which memory for all class <strong>instances</strong> and arrays is allocated.</p>
+</blockquote>
+<p>从官网的这段话上我们可以知道堆中存放着数组对象及所有类实例，且堆是被所有<strong>线程共享</strong>的。</p>
+</li>
+</ol>
+<p>   方法区：</p>
+<blockquote>
+<p>The Java Virtual Machine has a <em>method area</em> that is shared among all Java Virtual Machine threads. <strong>It stores per-class structures</strong> such as the run-time constant pool, field and method data, and the code for methods and constructors.</p>
+</blockquote>
+<p>   从上可知：方法区也是线程共享的区域，方法区存放着类的结构信息，像字段、方法数据和构造方法等等，还有一个重要的是方法区中存放着<strong>运行时常量池</strong>，运行时常量池存放着一些编译时已知的常量和字面量，运行时常量池内存溢出同样会造成OOM错误。</p>
+<p>   堆和方法区的总结：</p>
+<ol>
+<li>堆和方法区都是随着Java程序的启动而被创建，随Java程序关闭而销毁</li>
+<li>都是线程共享区域，意味着存放在这两个区域中的数据线程不安全</li>
+<li>堆和方法区可进行手动参数调节大小，若运行时这两个区域的内存不足将会抛出<strong>OutOfMemoryError</strong> 即我们常说的OOM</li>
+</ol>
+<p>   此时我们知道了Java文件中数据的存储都放在了哪些区域，同时我们也应该知道Java程序的运行是通过线程进行方法的调用来执行的，那么线程中方法的执行在运行时数据区又是怎样表现的呢？</p>
+<p>   方法的执行过程是一个递归调用的且先进后出的过程，熟悉数据结构的朋友应该知道通过栈这个数据结构可以表示出方法的执行。而在JVM中的<strong>虚拟机栈</strong>就是用来表示线程的执行过程。</p>
+<h2 id="Java-Virtual-Machine-Stacks"><a href="#Java-Virtual-Machine-Stacks" class="headerlink" title="Java Virtual Machine Stacks"></a>Java Virtual Machine Stacks</h2><blockquote>
+<p>Each Java Virtual Machine thread has a private <em>Java Virtual Machine stack</em>, created at the same time as the thread. A Java Virtual Machine stack stores frames (<a href="https://docs.oracle.com/javase/specs/jvms/se8/html/jvms-2.html#jvms-2.6" target="_blank" rel="noopener">§2.6</a>).</p>
+</blockquote>
+<p>   每一个Java 虚拟机线程拥有一个私有的虚拟机栈，随线程的创建而创建。一个Java虚拟机栈又存储着一个或多个栈帧。</p>
 
             </div>
             <hr/>
@@ -636,8 +667,8 @@
                 </a>
             </div>
             <br/>
-            <a  href="/2019/10/19/coding/">
-                    《Introduce My Blog》
+            <a  href="/2001/10/22/深入理解JVM/">
+                    《深入理解JVM运行时数据区》
             </a> 由
             <a href="http://yoursite.com">
                 ring2
@@ -682,7 +713,7 @@
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2019/10/22/JVM之运行时数据区/">
+                <a href="/2001/10/22/深入了解JVM/">
                     <div class="card-image">
                         
                         
@@ -695,14 +726,16 @@
                     <div class="summary block-with-text">
                         
                             
-什么是JVM运行时数据区？JVM运行时数据区是对Java 字节码文件在内存时对文件内容进行分类而设定的区域，通过JVM运行时数据区可以更好的管理和运行Java程序。
+什么是JVM运行时数据区？
+JVM运行时数据区是对Java 字节码文件在内存时对文件内容进行分类而设定的区域，通过JVM运行时数据区可以更好的管理和运行Java程序。
 
-JVM运行时数据区如何划分？官方文档地址： Run-Time Data
+JVM运行时数据区如何划分？
+官方文档地址： Run-Time Da
                         
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2019-10-22
+                            <i class="far fa-clock fa-fw icon-date"></i>2001-10-22
                         </span>
                         <span class="publish-author">
                             
@@ -731,45 +764,51 @@ JVM运行时数据区如何划分？官方文档地址： Run-Time Data
         
         <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge right-badge text-color">
-                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+                本篇&nbsp;<i class="far fa-dot-circle"></i>
             </div>
             <div class="card">
-                <a href="/2019/08/08/MyBaits工作原理/">
+                <a href="/2001/10/22/深入理解JVM/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/15.jpg" class="responsive-img" alt="MyBatis工作原理">
+                        <img src="/medias/featureimages/10.jpg" class="responsive-img" alt="深入理解JVM运行时数据区">
                         
-                        <span class="card-title">MyBatis工作原理</span>
+                        <span class="card-title">深入理解JVM运行时数据区</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            MyBatis工作原理​        首先通过Mybatis中的Resources类获取主配置文件Mybatis.xml获取其流对象inputstream，构造SqlSesionFactoryBuilder对象并调用build方法，将流对
+                            
+什么是JVM运行时数据区？
+JVM运行时数据区是对Java 字节码文件在内存时对文件内容进行分类而设定的区域，通过JVM运行时数据区可以更好的管理和运行Java程序。
+
+JVM运行时数据区如何划分？
+官方文档地址： Run-Time Da
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2019-08-08
+                                <i class="far fa-clock fa-fw icon-date"></i>2001-10-22
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/SSM/" class="post-category">
-                                    SSM
+                            <a href="/categories/JVM/" class="post-category">
+                                    JVM
                                 </a>
                             
                             
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/MyBatis/">
-                        <span class="chip bg-color">MyBatis</span>
+                    <a href="/tags/JVM/">
+                        <span class="chip bg-color">JVM</span>
                     </a>
                     
                 </div>

@@ -4,8 +4,8 @@
 
 <head><meta name="generator" content="Hexo 3.9.0">
     <meta charset="utf-8">
-    <meta name="keywords" content="Introduce My Blog, Java">
-    <meta name="description" content="​    我觉得每一个程序员都应该有一个自己的 博客去记录学习编程过程中的笔记，同时也可以记录自己的生活。只有不断的总结才能不断的进步。学习：学是去听，去阅读；习是去实践，去记录。只有这样我们才能真正的学到知识。学习也是系统化的，我们要学会">
+    <meta name="keywords" content="Java框架概念性总结, Java">
+    <meta name="description" content="1. Java相关的框架、中间件总结​        Java之所以这些年屹立不倒始终排在编程排行版的前三位，除了和它自身的优秀特性有关外，还和它强大的社区平台有关，首先为我们所熟之的就是Spring开源组织所带给我们的Spring全家桶，">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -13,7 +13,7 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>Introduce My Blog | Ring2&#39;s blog</title>
+    <title>Java框架概念性总结 | Ring2&#39;s blog</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -304,13 +304,13 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/5.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/10.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
                     <div class="description center-align post-title">
-                        Introduce My Blog
+                        Java框架概念性总结
                     </div>
                 </div>
             </div>
@@ -422,12 +422,8 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/life/">
-                                <span class="chip bg-color">life</span>
-                            </a>
-                        
-                            <a href="/tags/first/">
-                                <span class="chip bg-color">first</span>
+                            <a href="/tags/Java相关概念/">
+                                <span class="chip bg-color">Java相关概念</span>
                             </a>
                         
                     </div>
@@ -438,8 +434,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/life/" class="post-category">
-                                life
+                            <a href="/categories/Java-Concept/" class="post-category">
+                                Java-Concept
                             </a>
                         
                     </div>
@@ -450,7 +446,7 @@
             <div class="post-info">
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2019-10-19
+                    2019-08-02
                 </div>
 
                 
@@ -466,16 +462,39 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>​    我觉得每一个程序员都应该有一个自己的 博客去记录学习编程过程中的笔记，同时也可以记录自己的生活。只有不断的总结才能不断的进步。<strong>学习</strong>：学是去听，去阅读；习是去实践，去记录。只有这样我们才能真正的学到知识。学习也是系统化的，我们要学会将零散、碎片化的知识进行系统化。</p>
-<hr>
-<p>​    作为一个 <strong>Java</strong> 开发工程师 ，接下来会在Java的领域里分享自己的学习过程。</p>
-<p>​    所以，接下来一起学习，一起进步吧。</p>
-<pre><code class="java">public static void main(String[] args){
-    System.out.print(&quot;where there is a will, there is a way.&quot;);
-    while(Hobby.java==true){
-        coding(java);
-    }
-}</code></pre>
+                <h2 id="1-Java相关的框架、中间件总结"><a href="#1-Java相关的框架、中间件总结" class="headerlink" title="1. Java相关的框架、中间件总结"></a>1. Java相关的框架、中间件总结</h2><p>​        Java之所以这些年屹立不倒始终排在编程排行版的前三位，除了和它自身的优秀特性有关外，还和它强大的社区平台有关，首先为我们所熟之的就是<strong>Spring</strong>开源组织所带给我们的Spring全家桶，Spring全家桶为我们在web开发的各个领域提供了优秀的框架让我们可以快速的构建我们的应用，所以熟悉Spring全家桶并能准确的说出它们的概念及作用是一个Java从业人员所必须掌握的。当然除了Spring全家桶外，还有众多的开源中间件值得我们去学习和掌握，如<strong>Redis、RabbitMQ、Nginx、ElasticSearch</strong>等等。</p>
+<h2 id="2-Spring全家桶"><a href="#2-Spring全家桶" class="headerlink" title="2. Spring全家桶"></a>2. Spring全家桶</h2><p>​        对于Spring全家桶的概念我的想法是：首先需要知道官方文档是如何介绍的（PS :英语好的可以先看官方的英文介绍，官方的文档介绍通常会很长，所以只需要将核心的部分进行记录即可），然后再根据自己的理解和想法更加细粒度的解析并表达出来。</p>
+<pre><code>### 2.1 Spring Framework</code></pre><blockquote>
+<p>Spring makes it easy to create Java enterprise applications. It provides everything you need to embrace the Java language in an enterprise environment,Spring supports a wide range of application scenarios,Spring is open source. It has a large and active community.</p>
+</blockquote>
+<p>​        以上便是Spring官方文档中对Spring进行介绍的<strong>核心</strong>内容。我的总结：Spring是一个轻量级、开源的企业级Java应用框架，它所提供的众多特性及强大的社区平台使构建Java应用程序更加的高效、易维护。</p>
+<h3 id="2-2-Spring-IOC"><a href="#2-2-Spring-IOC" class="headerlink" title="2.2 Spring IOC"></a>2.2 Spring IOC</h3><blockquote>
+<p>IOC is also known as dependency injection (DI). It is a process whereby objects define their dependencies, that is, the other objects they work with, only through constructor arguments, arguments to a factory method, or properties that are set on the object instance after it is constructed or returned from a factory method. The container then injects those dependencies when it creates the bean. This process is fundamentally the inverse, hence the name Inversion of Control (IOC), of the bean itself controlling the instantiation or location of its dependencies by using direct construction of classes, or a mechanism such as the Service Locator’s pattern. </p>
+</blockquote>
+<p>​        “控制反转（IOC）”也称为“依赖注入（DI）”，是一个定义对象依赖的过程，对象只和构造参数，工厂方法参数，对象实例属性或工厂方法返回相关。容器在创建这些 bean 的 时候注入这些依赖。对象实例的创建由 其提供的构造方法或服务定位机制来实现。控制反转的理解应该是这样的，原先由我们实例化对象并注入依赖的控制权交由给了IOC容器，而IOC容器又是遵循依赖倒置的原则通过面向抽象编程而非具体实现的方式，优雅的降低了对象间的耦合，为编程带来了极大的便利。</p>
+<h3 id="2-3-Spring-AOP"><a href="#2-3-Spring-AOP" class="headerlink" title="2.3 Spring AOP"></a>2.3 Spring AOP</h3><blockquote>
+<p>Aspect-oriented Programming (AOP) complements Object-oriented Programming (OOP) by providing another way of thinking about program structure. The key unit of modularity in OOP is the class, whereas in AOP the unit of modularity is the aspect. Aspects enable the modularization of concerns (such as transaction management) that cut across multiple types and objects. (Such concerns are often termed “crosscutting” concerns in AOP literature.</p>
+</blockquote>
+<p>​        我的理解：AOP即面向切面(方面)编程，是对OOP面向对象编程的一种补充。传统的OOP是自上而下编写我们的主业务逻辑代码，而在编写主业务逻辑代码时常常需要补充一些辅助逻辑代码来帮助我们更好的管理应用程序，如日志、事务、权限控制等等，但是这些辅助的业务逻辑往往存在于大量的方法中，这就产生了横切性质的问题。传统的OOP不擅长编写从左到右的业务逻辑将众多需要辅助逻辑的代码进行一次编写，这样就产生了大量冗余的代码。而AOP编程将需要重用的辅助逻辑（<strong>横切关注点</strong>）通过动态代理的方式织入到众多的方法（<strong>核心关注点</strong>）中。</p>
+<h3 id="2-4-Spring-MVC"><a href="#2-4-Spring-MVC" class="headerlink" title="2.4 Spring MVC"></a>2.4 Spring MVC</h3><blockquote>
+<p>Spring Web MVC is the original web framework built on the Servlet API and included in the Spring Framework from the very beginning. The formal name “Spring Web MVC” comes from the name of its source module <a href="https://github.com/spring-projects/spring-framework/tree/master/spring-webmvc" target="_blank" rel="noopener">spring-webmvc</a> but it is more commonly known as “Spring MVC”.</p>
+</blockquote>
+<p>​        Spring MVC 其正式的名称应该叫 Spring Web MVC，但我们通常叫它Spring MVC。Spring MVC是基于Servlet API而构建的一个web框架。</p>
+<h3 id="2-5-Spring-Boot"><a href="#2-5-Spring-Boot" class="headerlink" title="2.5 Spring Boot"></a>2.5 Spring Boot</h3><blockquote>
+<p>Spring Boot makes it easy to create stand-alone, production-grade Spring based Applications that you can “just run”.<br>We take an opinionated view of the Spring platform and third-party libraries so you can get started with minimum fuss. Most Spring Boot applications need very little Spring configuration</p>
+</blockquote>
+<p>​        Spring Boot 是对第三方类库及Spring平台的整合，它能够快速的构建独立的、生产级别的基于Spring的应用程序。它”约定大于配置“的理念简化了原先Spring应用程序的大量配置。当然这和它的启动原理有关。</p>
+<h3 id="2-6-Spring-Cloud"><a href="#2-6-Spring-Cloud" class="headerlink" title="2.6 Spring Cloud"></a>2.6 Spring Cloud</h3><blockquote>
+<p>Spring Cloud provides tools for developers to quickly build some of the common patterns in distributed systems (e.g. configuration management, service discovery, circuit breakers, intelligent routing, micro-proxy, control bus, one-time tokens, global locks, leadership election, distributed sessions, cluster state). </p>
+</blockquote>
+<p>​        Spring Cloud 是一套为开发人员提供分布式系统所需常用组件的工具，如注册中心，分布式配置中心，分布式会话，全局锁，熔断器，只能路由，控制总线，一次性令牌，集群状态等等。</p>
+<h2 id="3-中间件"><a href="#3-中间件" class="headerlink" title="3.中间件"></a>3.中间件</h2><h3 id="3-1-缓存数据库Redis"><a href="#3-1-缓存数据库Redis" class="headerlink" title="3.1 缓存数据库Redis"></a>3.1 缓存数据库Redis</h3><blockquote>
+<p>Redis 是一个开源（BSD许可）的，内存中的数据结构存储系统，它可以用作数据库、缓存和消息中间件。 它支持多种类型的数据结构，如 <a href="http://www.redis.cn/topics/data-types-intro.html#strings" target="_blank" rel="noopener">字符串（strings）</a>， <a href="http://www.redis.cn/topics/data-types-intro.html#hashes" target="_blank" rel="noopener">散列（hashes）</a>， <a href="http://www.redis.cn/topics/data-types-intro.html#lists" target="_blank" rel="noopener">列表（lists）</a>， <a href="http://www.redis.cn/topics/data-types-intro.html#sets" target="_blank" rel="noopener">集合（sets）</a>， <a href="http://www.redis.cn/topics/data-types-intro.html#sorted-sets" target="_blank" rel="noopener">有序集合（sorted sets）</a> 与范围查询， <a href="http://www.redis.cn/topics/data-types-intro.html#bitmaps" target="_blank" rel="noopener">bitmaps</a>， <a href="http://www.redis.cn/topics/data-types-intro.html#hyperloglogs" target="_blank" rel="noopener">hyperloglogs</a> 和<a href="http://www.redis.cn/commands/geoadd.html" target="_blank" rel="noopener">地理空间（geospatial）</a> 索引半径查询。 Redis 内置了 <a href="http://www.redis.cn/topics/replication.html" target="_blank" rel="noopener">复制（replication）</a>，<a href="http://www.redis.cn/commands/eval.html" target="_blank" rel="noopener">LUA脚本（Lua scripting）</a>， <a href="http://www.redis.cn/topics/lru-cache.html" target="_blank" rel="noopener">LRU驱动事件（LRU eviction）</a>，<a href="http://www.redis.cn/topics/transactions.html" target="_blank" rel="noopener">事务（transactions）</a> 和不同级别的 <a href="http://www.redis.cn/topics/persistence.html" target="_blank" rel="noopener">磁盘持久化（persistence）</a>， 并通过 <a href="http://www.redis.cn/topics/sentinel.html" target="_blank" rel="noopener">Redis哨兵（Sentinel）</a>和自动 <a href="http://www.redis.cn/topics/cluster-tutorial.html" target="_blank" rel="noopener">分区（Cluster）</a>提供高可用性（high availability）。</p>
+</blockquote>
+<h3 id="3-2-消息中间键RabbitMQ"><a href="#3-2-消息中间键RabbitMQ" class="headerlink" title="3.2 消息中间键RabbitMQ"></a>3.2 消息中间键RabbitMQ</h3><blockquote>
+<p>RabbitMQ is a message broker: it accepts and forwards messages. You can think about it as a post office: when you put the mail that you want posting in a post box, you can be sure that Mr. or Ms. Mail-person will eventually deliver the mail to your recipient. In this analogy, RabbitMQ is a post box, a post office and a postman.</p>
+</blockquote>
+<p>​        RabbitMQ就是一个消息代理商。它接受并转发消息。我们知道消息中间件通常能带来这三大好处：解耦、异步、削峰。以上将RabbitMQ描述为邮局其实就是描述了消息中间件的两大好处：解耦、异步。</p>
 
             </div>
             <hr/>
@@ -636,8 +655,8 @@
                 </a>
             </div>
             <br/>
-            <a  href="/2019/10/19/coding/">
-                    《Introduce My Blog》
+            <a  href="/2019/08/02/Java 框架、中间件概念总结/">
+                    《Java框架概念性总结》
             </a> 由
             <a href="http://yoursite.com">
                 ring2
@@ -682,58 +701,6 @@
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2019/10/22/JVM之运行时数据区/">
-                    <div class="card-image">
-                        
-                        
-                        <img src="/medias/featureimages/10.jpg" class="responsive-img" alt="深入理解JVM运行时数据区">
-                        
-                        <span class="card-title">深入理解JVM运行时数据区</span>
-                    </div>
-                </a>
-                <div class="card-content article-content">
-                    <div class="summary block-with-text">
-                        
-                            
-什么是JVM运行时数据区？JVM运行时数据区是对Java 字节码文件在内存时对文件内容进行分类而设定的区域，通过JVM运行时数据区可以更好的管理和运行Java程序。
-
-JVM运行时数据区如何划分？官方文档地址： Run-Time Data
-                        
-                    </div>
-                    <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2019-10-22
-                        </span>
-                        <span class="publish-author">
-                            
-                            <i class="fas fa-bookmark fa-fw icon-category"></i>
-                            
-                            <a href="/categories/JVM/" class="post-category">
-                                    JVM
-                                </a>
-                            
-                            
-                        </span>
-                    </div>
-                </div>
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/JVM/">
-                        <span class="chip bg-color">JVM</span>
-                    </a>
-                    
-                </div>
-                
-            </div>
-        </div>
-        
-        
-        <div class="article col s12 m6" data-aos="fade-up">
-            <div class="article-badge right-badge text-color">
-                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
-            </div>
-            <div class="card">
                 <a href="/2019/08/08/MyBaits工作原理/">
                     <div class="card-image">
                         
@@ -750,9 +717,9 @@ JVM运行时数据区如何划分？官方文档地址： Run-Time Data
                         
                     </div>
                     <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2019-08-08
-                            </span>
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2019-08-08
+                        </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -770,6 +737,56 @@ JVM运行时数据区如何划分？官方文档地址： Run-Time Data
                     
                     <a href="/tags/MyBatis/">
                         <span class="chip bg-color">MyBatis</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2019/08/01/单例模式/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/20.jpg" class="responsive-img" alt="单例模式">
+                        
+                        <span class="card-title">单例模式</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            1. 单例模式介绍
+​    单例模式（Singleton Pattern）是 Java 中最简单的设计模式之一。这种类型的设计模式属于创建型模式，它提供了一种创建对象的最佳方式。这种模式涉及到一个单一的类，该类负责创建自己的对象，同时确保
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2019-08-01
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/JVM/" class="post-category">
+                                    JVM
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/JVM/">
+                        <span class="chip bg-color">JVM</span>
                     </a>
                     
                 </div>
