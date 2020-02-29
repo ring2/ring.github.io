@@ -4,9 +4,9 @@
 
 <head><meta name="generator" content="Hexo 3.9.0">
     <meta charset="utf-8">
-    <meta name="keywords" content="单例模式, Java">
-    <meta name="description" content="1. 单例模式介绍
-​    单例模式（Singleton Pattern）是 Java 中最简单的设计模式之一。这种类型的设计模式属于创建型模式，它提供了一种创建对象的最佳方式。这种模式涉及到一个单一的类，该类负责创建自己的对象，同时确保">
+    <meta name="keywords" content="集合框架的遍历, Java">
+    <meta name="description" content="1. Map遍历介绍
+​     map的keySet方法是获取到map中key的集合， entrySet方法是获取到 一个entry对象，通过entry对象可以获取到key、value keySet和entrySet方法获取到的对象都可以">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -14,7 +14,7 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>单例模式 | Ring2&#39;s blog</title>
+    <title>集合框架的遍历 | Ring2&#39;s blog</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -305,13 +305,13 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/20.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/11.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
                     <div class="description center-align post-title">
-                        单例模式
+                        集合框架的遍历
                     </div>
                 </div>
             </div>
@@ -423,8 +423,8 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/JVM/">
-                                <span class="chip bg-color">JVM</span>
+                            <a href="/tags/Java集合框架/">
+                                <span class="chip bg-color">Java集合框架</span>
                             </a>
                         
                     </div>
@@ -435,8 +435,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/JVM/" class="post-category">
-                                JVM
+                            <a href="/categories/集合/" class="post-category">
+                                集合
                             </a>
                         
                     </div>
@@ -447,7 +447,7 @@
             <div class="post-info">
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2019-08-01
+                    2019-11-11
                 </div>
 
                 
@@ -463,86 +463,80 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="1-单例模式介绍"><a href="#1-单例模式介绍" class="headerlink" title="1. 单例模式介绍"></a>1. 单例模式介绍</h2><blockquote>
-<p>​    单例模式（Singleton Pattern）是 Java 中最简单的设计模式之一。这种类型的设计模式属于创建型模式，它提供了一种创建对象的最佳方式。这种模式涉及到一个单一的类，该类负责创建自己的对象，同时确保只有单个对象被创建。这个类提供了一种访问其唯一的对象的方式，可以直接访问，不需要实例化该类的对象。</p>
+                <h2 id="1-Map遍历介绍"><a href="#1-Map遍历介绍" class="headerlink" title="1. Map遍历介绍"></a>1. Map遍历介绍</h2><blockquote>
+<p>​     map的keySet方法是获取到map中key的集合， entrySet方法是获取到 一个entry对象，通过entry对象可以获取到key、value keySet和entrySet方法获取到的对象都可以通过iterator获取到迭代器</p>
 </blockquote>
-<h2 id="2-单例模式的种类"><a href="#2-单例模式的种类" class="headerlink" title="2.单例模式的种类"></a>2.单例模式的种类</h2><p>​    一般单例模式有五种：</p>
-<ul>
-<li>饿汉式</li>
-<li>懒汉式</li>
-<li>双重检测锁（懒汉式升级）</li>
-<li>静态内部类实现</li>
-<li>枚举实现</li>
-</ul>
-<h2 id="3-实现单例模式"><a href="#3-实现单例模式" class="headerlink" title="3. 实现单例模式"></a>3. 实现单例模式</h2><pre><code class="java">package xyz.ring2.singleton;
+<h2 id="2-Map遍历演示"><a href="#2-Map遍历演示" class="headerlink" title="2. Map遍历演示"></a>2. Map遍历演示</h2><pre><code class="java">      Map&lt;String,Object&gt; map = new HashMap&lt;&gt;();
+        map.put(&quot;Java&quot;,&quot;java&quot;);
+        map.put(&quot;Html&quot;,&quot;html&quot;);
+        map.put(&quot;Css&quot;,&quot;css&quot;);
+        map.put(&quot;Js&quot;,&quot;js&quot;);
 
-/**
- * @author :  ring2
- * @date :   2019/8/1 21:27
- * @dowhat :
- **/
-//饿汉式的实现
-public class Singleton1 {
-    private static Singleton1 instance = new Singleton1();
+        // 遍历方式一： 通过keySet直接foreach
+        map.keySet().forEach(key -&gt; {
+            System.out.println(key);
+            System.out.println(&quot;=============&quot;);
+        });
 
-    private Singleton1(){}
-
-    public static  Singleton1 getInstance(){
-        return instance;
-    }
-}
-
-//懒汉式实现
- class Singleton2 {
-    private static Singleton2 instance ;
-
-    private Singleton2(){}
-
-    public static synchronized Singleton2 getInstance(){
-        if (instance != null){
-            instance = new Singleton2();
+        // 遍历方式二：通过EntrySet直接foreach
+        map.entrySet().forEach(entry -&gt;{
+            System.out.println(entry.getKey());
+            System.out.println(entry.getValue());
+            System.out.println(&quot;=============&quot;);
+        });
+        // 遍历方式三： 通过EntrySet得到迭代器
+        Iterator&lt;Map.Entry&lt;String, Object&gt;&gt; iterator = map.entrySet().iterator();
+        while (iterator.hasNext()){
+            Map.Entry&lt;String, Object&gt; next = iterator.next();
+            System.out.println(next.getKey());
+            System.out.println(next.getValue());
+            System.out.println(&quot;=============&quot;);
         }
-        return instance;
-    }
-}
-//双重检验锁（懒汉式升级）
- class Singleton3 {
-    private static Singleton3 instance;
-
-    private Singleton3(){}
-
-    public static Singleton3 getInstance(){
-        if (instance != null){
-            synchronized (Singleton3.class){
-                if (instance != null){
-                    instance = new Singleton3();
-                }
+        // 遍历方式四： 通过keySet得到迭代器iterator
+        Iterator&lt;String&gt; iterator1 = map.keySet().iterator();
+        while (iterator1.hasNext()){
+            String next = iterator1.next();
+            System.out.println(next);
+            System.out.println(&quot;=============&quot;);
+        }</code></pre>
+<p><strong>注：如果需要在遍历中对元素进行删除操作，则只能通过迭代器的方式</strong></p>
+<pre><code>Iterator&lt;Map.Entry&lt;String, Object&gt;&gt; iterator = map.entrySet().iterator();
+        while (iterator.hasNext()){
+            Map.Entry&lt;String, Object&gt; next = iterator.next();
+            if (next.getKey().equals(&quot;Java&quot;)){
+                iterator.remove();
             }
+        }</code></pre><h2 id="3-List遍历演示"><a href="#3-List遍历演示" class="headerlink" title="3. List遍历演示"></a>3. List遍历演示</h2><pre><code>    List&lt;String&gt; list = new ArrayList&lt;String&gt;(){{
+            add("Java");
+            add("Html");
+            add("Css");
+            add("Js");
+        }};
+        // 遍历方式一
+        list.forEach(str -&gt;{
+            System.out.println(str);
+            System.out.println(&quot;====&quot;);
+        });
+
+        // 遍历方式二
+        Iterator&lt;String&gt; iterator2 = list.iterator();
+        while (iterator2.hasNext()){
+            String next = iterator2.next();
+            System.out.println(next);
         }
-        return instance;
-    }
-}
 
-//静态内部类
- class Singleton4 {
-
-    private static class StaticSingleton{
-        private static final Singleton4 INSTANCE = new Singleton4();
-    }
-
-    private Singleton4(){}
-
-    public static  Singleton4 getInstance(){
-        return StaticSingleton.INSTANCE;
-    }
-}
-
-//枚举实现
-    enum Singleton {
-    INSTANCE;
-    Singleton(){};
-}</code></pre>
-<p>​    以上就是五种单例模式的实现。</p>
+        // 遍历方式三
+        ListIterator&lt;String&gt; stringListIterator = list.listIterator();
+        while (stringListIterator.hasNext()){
+            System.out.println(stringListIterator.next());
+        }</code></pre><p><strong>注：如果需要在遍历中对元素进行删除操作，则只能通过迭代器的方式</strong></p>
+<pre><code>Iterator&lt;String&gt; iterator = list.iterator(); //通过listIterator也一样
+        while (iterator.hasNext()){
+            if (iterator.next().equals(&quot;Java&quot;)){
+                iterator.remove();
+            }
+        }</code></pre><p><strong>注 ：list 中使用listIterator方法获取的迭代器相比iterator多增加了几个方法，如add、set方法等。能够在遍历操作list时更具灵活性。</strong></p>
+<h2 id="4-总结"><a href="#4-总结" class="headerlink" title="4. 总结"></a>4. 总结</h2><p>​    map遍历的过程中，如果单纯遍历map进行取值操作而不对map进行修改则阿里巴巴开发手册推荐用entrySet进行forEach遍历即可，如果需要遍历中操作map，则通过entrySet获取到迭代器再进行相关操作。如果不适用迭代器进行修改map的话，会出现ConcurrentModicationException异常，这是map的一种自我保护机制，同样的list也是，如果需要修改list的话则同样需要通过迭代器进行操作。</p>
 
             </div>
             <hr/>
@@ -703,8 +697,8 @@ public class Singleton1 {
                 </a>
             </div>
             <br/>
-            <a  href="/2019/08/01/单例模式/">
-                    《单例模式》
+            <a  href="/2019/11/11/集合框架的遍历/">
+                    《集合框架的遍历》
             </a> 由
             <a href="http://yoursite.com">
                 ring2
@@ -745,46 +739,49 @@ public class Singleton1 {
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2019/08/02/Java 框架、中间件概念总结/">
+                <a href="/2019/11/11/集合框架的遍历/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/10.jpg" class="responsive-img" alt="Java框架概念性总结">
+                        <img src="/medias/featureimages/11.jpg" class="responsive-img" alt="集合框架的遍历">
                         
-                        <span class="card-title">Java框架概念性总结</span>
+                        <span class="card-title">集合框架的遍历</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            1. Java相关的框架、中间件总结​        Java之所以这些年屹立不倒始终排在编程排行版的前三位，除了和它自身的优秀特性有关外，还和它强大的社区平台有关，首先为我们所熟之的就是Spring开源组织所带给我们的Spring全家桶，
+                            1. Map遍历介绍
+​     map的keySet方法是获取到map中key的集合， entrySet方法是获取到 一个entry对象，通过entry对象可以获取到key、value keySet和entrySet方法获取到的对象都可以
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2019-08-02
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2019-11-11
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/Java-Concept/" class="post-category">
-                                    Java-Concept
+                            <a href="/categories/集合/" class="post-category">
+                                    集合
                                 </a>
                             
                             
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/Java相关概念/">
-                        <span class="chip bg-color">Java相关概念</span>
+                    <a href="/tags/Java集合框架/">
+                        <span class="chip bg-color">Java集合框架</span>
                     </a>
                     
                 </div>
@@ -795,28 +792,33 @@ public class Singleton1 {
         
         <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge right-badge text-color">
-                本篇&nbsp;<i class="far fa-dot-circle"></i>
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2019/08/01/单例模式/">
+                <a href="/2019/10/22/JVM之GC/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/20.jpg" class="responsive-img" alt="单例模式">
+                        <img src="/medias/featureimages/16.jpg" class="responsive-img" alt="JVM-GC">
                         
-                        <span class="card-title">单例模式</span>
+                        <span class="card-title">JVM-GC</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            1. 单例模式介绍
-​    单例模式（Singleton Pattern）是 Java 中最简单的设计模式之一。这种类型的设计模式属于创建型模式，它提供了一种创建对象的最佳方式。这种模式涉及到一个单一的类，该类负责创建自己的对象，同时确保
+                            1. 关键词
+Major GC ：Old 区
+Young GC :  Young 区
+Full GC     ：Old 区和Young区同时GC
+
+
+​        我们知道Java是一门面向对象的语言，相对于这些对象来说，它们所生存的”
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2019-08-01
+                                <i class="far fa-clock fa-fw icon-date"></i>2019-10-22
                             </span>
                         <span class="publish-author">
                             
@@ -830,7 +832,6 @@ public class Singleton1 {
                         </span>
                     </div>
                 </div>
-
                 
                 <div class="card-action article-tags">
                     
