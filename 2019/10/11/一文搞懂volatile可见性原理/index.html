@@ -4,13 +4,8 @@
 
 <head><meta name="generator" content="Hexo 3.9.0">
     <meta charset="utf-8">
-    <meta name="keywords" content="深入理解JVM运行时数据区, Java">
-    <meta name="description" content="
-什么是JVM运行时数据区？
-JVM运行时数据区是对Java 字节码文件在内存时对文件内容进行分类而设定的区域，通过JVM运行时数据区可以更好的管理和运行Java程序。
-
-JVM运行时数据区如何划分？
-官方文档地址： Run-Time Da">
+    <meta name="keywords" content="一文搞懂volatile可见性原理, Java">
+    <meta name="description" content="说volatile之前，了解JMM（Java内存模型）有助于我们理解和描述volatile关键字。JMM是Java虚拟机所定义的一种抽象规范，用来屏蔽不同硬件和操作系统的内存访问差异，让Java程序在各种平台下都达到一致的内存访问效果。JM">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -18,7 +13,7 @@ JVM运行时数据区如何划分？
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>深入理解JVM运行时数据区 | Ring2&#39;s blog</title>
+    <title>一文搞懂volatile可见性原理 | Ring2&#39;s blog</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -309,13 +304,13 @@ JVM运行时数据区如何划分？
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/10.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/5.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
                     <div class="description center-align post-title">
-                        深入理解JVM运行时数据区
+                        一文搞懂volatile可见性原理
                     </div>
                 </div>
             </div>
@@ -427,8 +422,8 @@ JVM运行时数据区如何划分？
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/JVM/">
-                                <span class="chip bg-color">JVM</span>
+                            <a href="/tags/volatile/">
+                                <span class="chip bg-color">volatile</span>
                             </a>
                         
                     </div>
@@ -439,8 +434,8 @@ JVM运行时数据区如何划分？
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/JVM/" class="post-category">
-                                JVM
+                            <a href="/categories/多线程/" class="post-category">
+                                多线程
                             </a>
                         
                     </div>
@@ -451,7 +446,7 @@ JVM运行时数据区如何划分？
             <div class="post-info">
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2001-10-22
+                    2019-10-11
                 </div>
 
                 
@@ -467,46 +462,78 @@ JVM运行时数据区如何划分？
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <ol>
-<li><p><strong>什么是JVM运行时数据区？</strong></p>
-<p>JVM运行时数据区是对Java 字节码文件在<strong>内存</strong>时对文件内容进行分类而设定的区域，通过JVM运行时数据区可以更好的管理和运行Java程序。</p>
-</li>
-<li><p><strong>JVM运行时数据区如何划分？</strong></p>
-<p>官方文档地址： <a href="https://docs.oracle.com/javase/specs/jvms/se8/html/jvms-2.html#jvms-2.5" target="_blank" rel="noopener">Run-Time Data Areas </a></p>
-<p>官方文档中将运行时数据区划分成六个部分:</p>
+                <p>说volatile之前，了解JMM（Java内存模型）有助于我们理解和描述volatile关键字。JMM是Java虚拟机所定义的一种抽象规范，用来屏蔽不同硬件和操作系统的内存访问差异，让Java程序在各种平台下都达到一致的内存访问效果。JMM也可以称之为Java线程内存模型，也描述了Java线程在工作中对数据的操作过程以及描述了线程之间的通信过程。</p>
+<p><em><img src="https://img2018.cnblogs.com/blog/1696492/201908/1696492-20190829134648125-2095191535.png" alt="img"></em></p>
+<p>　　以上便是JMM的基本逻辑图，Java采用工作内存和主内存进行数据交互的原因可以解释为，工作内存一般为cpu的高速缓存，cpu的高速缓存就是为了解决cpu日益增长的速度与主存不匹配导致浪费计算资源，所以线程的工作内存位于cpu的高速缓存中来提高运算速度。但是多个线程在对主内存中共享变量操作时会有一个<strong>可见性</strong>问题。具体可看以下代码：</p>
+<p><a href="javascript:void(0);" target="_blank" rel="noopener"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<pre><code>package xyz.ring2.demo.test;
+
+public class VolatileVisibilityTest {
+    public static boolean flag = false;
+
+    public static void changeCondition(){
+        flag = true;
+    }
+
+    public static  void main(String[] args) throws InterruptedException {
+        System.out.println(&quot;working and waiting for change...&quot;);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (!flag){
+                    System.out.println(&quot;hello&quot;);
+                }
+            }
+        }).start();
+
+        Thread.sleep(200);
+
+       new Thread(new Runnable() {
+            @Override
+            public void run() {
+                changeCondition();
+                System.out.println(&quot;condition has changed.&quot;);
+            }
+        }).start();
+
+        Thread.sleep(200);
+        System.out.println(&quot;work done.&quot;);
+
+    }
+
+}</code></pre><p><a href="javascript:void(0);" target="_blank" rel="noopener"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<p>　　在该程序中有一个共享变量flag，第一个线程运行时等待别的线程改变flag的值使其跳出循环，第二个线程是去改变共享变量flag的值。在我们看来，第一个线程只需要等待第二个线程改变了flag的即可跳出循环。以下是程序运行结果：</p>
+<p><img src="https://img2018.cnblogs.com/blog/1696492/201908/1696492-20190829140347328-314441941.png" alt="img"></p>
+<p> 　　可以看到当“work done”打印出来时程序还没有停止，此时我们可以得出结论。两个线程对共享变量的操作是互相不可见的。此时我们很自然的想到了通过加synchronizedJava内置锁来解决。</p>
+<p>通过在while循环外添加synchronized（this）同步块确实能解决这种问题，但是在这种仅仅只需要保证一个共享变量可见的情况下采用synchronized锁来保证同步代价太大，此时我们应该采用Java所</p>
+<p>提供的volatile关键字来保证变量的可见性。使用上通过在flag前加上volatile关键字即可。</p>
+<pre><code>public static volatile boolean flag = false;</code></pre><p>以下是运行结果：</p>
+<p><img src="https://img2018.cnblogs.com/blog/1696492/201908/1696492-20190829141243255-1318381975.png" alt="img"></p>
+<p>正常的使程序结束了，线程一成功的感知到了线程二对flag变量的改变。</p>
+<p>　　那么volatile关键字使如何保证多线程下共享变量线程间可见的呢？</p>
+<p>首先我们来了解以下JMM中的数据原子操作：</p>
 <ul>
-<li>The pc Register : 程序计数器</li>
-<li>Java virtual Machine Stacks : Java 虚拟机栈</li>
-<li>Heap ：堆</li>
-<li>Method Area :方法区</li>
-<li>Run-Time Constant Pool: 运行时常量池</li>
-<li>Native Method Stacks: 本地方法栈</li>
+<li>read（读取）：从主内存读取数据</li>
+<li>load（载入）：将主内存读取到的数据写入工作内存</li>
+<li>use（使用）：从工作内存读取数据来计算</li>
+<li>assign（赋值）：将计算好的值从新赋值到工作内存中</li>
+<li>store（存储）：将工作内存数据写入到主内存</li>
+<li>write（写入）：将store过去的变量值赋值给主内存中的变量</li>
+<li>lock（锁定）：将主内存变量加锁，标识为线程独占状态</li>
+<li>unlock（解锁）：将主内存变量解锁，解锁后其他线程可以锁定该变量</li>
 </ul>
-<p>首先我们知道Java是一门面向对象的语言，那么我们先来看看哪个数据区存放着对象，答案其实大家都知道：<strong>堆</strong></p>
-<p>Heap：</p>
+<p>　　JVM通过以上原子操作来处理主内存和工作内存中的数据交互。那么volatile到底是如何保证的呢？</p>
 <blockquote>
-<p>The Java Virtual Machine has a <em>heap</em> that is shared among all Java Virtual Machine threads. The heap is the run-time data area from which memory for all class <strong>instances</strong> and arrays is allocated.</p>
+<p>　　Java中的volatile关键字是通过调用C语言实现的，而在更底层的实现上，即汇编语言的层面上，用volatile关键字修饰后的变量在操作时，最终解析的汇编指令会在指令前加上lock前缀指令</p>
+<p>来保证工作内存中读取到的数据是主内存中最新的数据。具体的实现原理是在硬件层面上通过：MESI缓存一致性协议：多个cpu从主内存读取数据到高速缓存中，如果其中一个cpu修改了数据</p>
+<p>，会通过总线立即回写到主内存中，其他cpu会通过总线嗅探机制感知到缓存中数据的变化并将工作内存中的数据失效，再去读取主内存中的数据。</p>
+<p>　IA32架构软件开发者手册对lock前缀指令的解释：<br>　　1.会将当前处理器缓存行的数据立即回写到系统内存中，<br>　　2.这个写回内存的操作会引起其他cpu里缓存了该内存地址的数据失效（MESI协议）</p>
 </blockquote>
-<p>从官网的这段话上我们可以知道堆中存放着数组对象及所有类实例，且堆是被所有<strong>线程共享</strong>的。</p>
-</li>
-</ol>
-<p>   方法区：</p>
-<blockquote>
-<p>The Java Virtual Machine has a <em>method area</em> that is shared among all Java Virtual Machine threads. <strong>It stores per-class structures</strong> such as the run-time constant pool, field and method data, and the code for methods and constructors.</p>
-</blockquote>
-<p>   从上可知：方法区也是线程共享的区域，方法区存放着类的结构信息，像字段、方法数据和构造方法等等，还有一个重要的是方法区中存放着<strong>运行时常量池</strong>，运行时常量池存放着一些编译时已知的常量和字面量，运行时常量池内存溢出同样会造成OOM错误。</p>
-<p>   堆和方法区的总结：</p>
-<ol>
-<li>堆和方法区都是随着Java程序的启动而被创建，随Java程序关闭而销毁</li>
-<li>都是线程共享区域，意味着存放在这两个区域中的数据线程不安全</li>
-<li>堆和方法区可进行手动参数调节大小，若运行时这两个区域的内存不足将会抛出<strong>OutOfMemoryError</strong> 即我们常说的OOM</li>
-</ol>
-<p>   此时我们知道了Java文件中数据的存储都放在了哪些区域，同时我们也应该知道Java程序的运行是通过线程进行方法的调用来执行的，那么线程中方法的执行在运行时数据区又是怎样表现的呢？</p>
-<p>   方法的执行过程是一个递归调用的且先进后出的过程，熟悉数据结构的朋友应该知道通过栈这个数据结构可以表示出方法的执行。而在JVM中的<strong>虚拟机栈</strong>就是用来表示线程的执行过程。</p>
-<h2 id="Java-Virtual-Machine-Stacks"><a href="#Java-Virtual-Machine-Stacks" class="headerlink" title="Java Virtual Machine Stacks"></a>Java Virtual Machine Stacks</h2><blockquote>
-<p>Each Java Virtual Machine thread has a private <em>Java Virtual Machine stack</em>, created at the same time as the thread. A Java Virtual Machine stack stores frames (<a href="https://docs.oracle.com/javase/specs/jvms/se8/html/jvms-2.html#jvms-2.6" target="_blank" rel="noopener">§2.6</a>).</p>
-</blockquote>
-<p>   每一个Java 虚拟机线程拥有一个私有的虚拟机栈，随线程的创建而创建。一个Java虚拟机栈又存储着一个或多个栈帧。</p>
+<p><img src="https://img2018.cnblogs.com/blog/1696492/201908/1696492-20190829142156207-1544071496.png" alt="img"></p>
+<p>　　现在我们知道了volatile可以保证变量的可见性，我们还应该知道volatile不可以保证原子性：</p>
+<p>　　volatile无法保证原子性：如：两个线程同时read主内存中相同的值，load到工作内存中，两个线程的cpu又同时use了count值并进行了计算且assign回工作内存，但其中一个线程通过总线store回主内存的<br>　　速度更快，于是由于（总线）MESI缓存一致性协议下的cpu总线嗅探机制就会使得另一个线程工作内存中的变量副本失效，导致之前的操作结果丢失(可以结合图片理解）。</p>
+<p>　　并发编程的三大特性：可见性，原子性，有序性。那么volatile对有序性又是怎样的呢。。。这涉及到happens-before规则，volatile关键字可以体统屏障保护，使得编译器和jvm对变量操作的重排序失效。</p>
+<p>可以读取我的另一篇文章：<a href="https://www.cnblogs.com/ring2/p/11401809.html" target="_blank" rel="noopener">单例模式值双检索</a> 来理解一下重排序所带来的问题。</p>
 
             </div>
             <hr/>
@@ -667,8 +694,8 @@ JVM运行时数据区如何划分？
                 </a>
             </div>
             <br/>
-            <a  href="/2001/10/22/深入理解JVM/">
-                    《深入理解JVM运行时数据区》
+            <a  href="/2019/10/11/一文搞懂volatile可见性原理/">
+                    《一文搞懂volatile可见性原理》
             </a> 由
             <a href="http://yoursite.com">
                 ring2
@@ -713,36 +740,31 @@ JVM运行时数据区如何划分？
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2001/10/22/深入了解JVM/">
+                <a href="/2019/10/19/coding/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/10.jpg" class="responsive-img" alt="深入理解JVM运行时数据区">
+                        <img src="/medias/featureimages/5.jpg" class="responsive-img" alt="Introduce My Blog">
                         
-                        <span class="card-title">深入理解JVM运行时数据区</span>
+                        <span class="card-title">Introduce My Blog</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            
-什么是JVM运行时数据区？
-JVM运行时数据区是对Java 字节码文件在内存时对文件内容进行分类而设定的区域，通过JVM运行时数据区可以更好的管理和运行Java程序。
-
-JVM运行时数据区如何划分？
-官方文档地址： Run-Time Da
+                            ​    我觉得每一个程序员都应该有一个自己的 博客去记录学习编程过程中的笔记，同时也可以记录自己的生活。只有不断的总结才能不断的进步。学习：学是去听，去阅读；习是去实践，去记录。只有这样我们才能真正的学到知识。学习也是系统化的，我们要学会
                         
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2001-10-22
+                            <i class="far fa-clock fa-fw icon-date"></i>2019-10-19
                         </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/JVM/" class="post-category">
-                                    JVM
+                            <a href="/categories/life/" class="post-category">
+                                    life
                                 </a>
                             
                             
@@ -752,8 +774,12 @@ JVM运行时数据区如何划分？
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/JVM/">
-                        <span class="chip bg-color">JVM</span>
+                    <a href="/tags/life/">
+                        <span class="chip bg-color">life</span>
+                    </a>
+                    
+                    <a href="/tags/first/">
+                        <span class="chip bg-color">first</span>
                     </a>
                     
                 </div>
@@ -764,51 +790,46 @@ JVM运行时数据区如何划分？
         
         <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge right-badge text-color">
-                本篇&nbsp;<i class="far fa-dot-circle"></i>
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2001/10/22/深入理解JVM/">
+                <a href="/2019/08/11/单例模式/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/10.jpg" class="responsive-img" alt="深入理解JVM运行时数据区">
+                        <img src="/medias/featureimages/20.jpg" class="responsive-img" alt="单例模式">
                         
-                        <span class="card-title">深入理解JVM运行时数据区</span>
+                        <span class="card-title">单例模式</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            
-什么是JVM运行时数据区？
-JVM运行时数据区是对Java 字节码文件在内存时对文件内容进行分类而设定的区域，通过JVM运行时数据区可以更好的管理和运行Java程序。
-
-JVM运行时数据区如何划分？
-官方文档地址： Run-Time Da
+                            1. 单例模式介绍
+​    单例模式（Singleton Pattern）是 Java 中最简单的设计模式之一。这种类型的设计模式属于创建型模式，它提供了一种创建对象的最佳方式。这种模式涉及到一个单一的类，该类负责创建自己的对象，同时确保
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2001-10-22
+                                <i class="far fa-clock fa-fw icon-date"></i>2019-08-11
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/JVM/" class="post-category">
-                                    JVM
+                            <a href="/categories/设计模式/" class="post-category">
+                                    设计模式
                                 </a>
                             
                             
                         </span>
                     </div>
                 </div>
-
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/JVM/">
-                        <span class="chip bg-color">JVM</span>
+                    <a href="/tags/设计模式/">
+                        <span class="chip bg-color">设计模式</span>
                     </a>
                     
                 </div>
